@@ -175,6 +175,13 @@ if __name__ == "__main__":
 
     transcripts = get_all_transcripts(episodes)
 
+    parsed = []
+    for t in transcripts:
+        # if length of lines is under 10, skip
+        if len(t["lines"]) < 10:
+            continue
+        parsed.append(t)
+    print(f"Found {len(parsed)} transcripts")
     # dump json
     with open("transcripts.json", "w+") as f:
-        json.dump(transcripts, f, indent=4)
+        json.dump(parsed, f, indent=4)
