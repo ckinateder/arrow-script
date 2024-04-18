@@ -1,0 +1,22 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-size: 12px;
+}
+
+#title {
+  margin: 0px 0px 5px 0px;
+  border-bottom: #333 1px solid;
+  width: fit-content;
+}
+
+* {
+  font-family: "Kode Mono", monospace;
+  font-optical-sizing: auto;
+}
