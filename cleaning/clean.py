@@ -11,6 +11,8 @@ def parse_columns(
         "gender",
         "title",
         "lines",
+        "season",
+        "episode",
     ],
 ) -> pd.DataFrame:
     """Load a csv file and keep only the columns we need

@@ -10,12 +10,38 @@
   font-size: 12px;
 }
 
+p {
+  font-size: small;
+  margin: 4px 0px;
+}
+h3 {
+  font-size: medium;
+  margin: 4px 0px;
+}
+
+#show-overview,
+#character-stats {
+  width: fit-content;
+  margin-top: 10px;
+  border: 1px solid #333;
+}
+
 #title {
   margin: 0px 0px 5px 0px;
   border-bottom: #333 1px solid;
   width: fit-content;
 }
 
+#tooltip {
+  position: absolute;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 2px 2px 3px 0px rgb(92 92 92 / 0.5);
+  border: 1px solid #ddd;
+  padding: 2px 8px;
+  width: 200px;
+  font-size: smaller;
+}
 * {
   font-family: "Kode Mono", monospace;
   font-optical-sizing: auto;

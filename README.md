@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 Create one or several visualizations that allow me to accomplish the following tasks: 
 
-- [ ] Give an overview of the show- you can use text or visualizations here.  Introduce your reader to your show, and give some context.  When did it run and on what platform?  How many seasons and episodes were in the show?  Who are the main characters?  What genre is it in? 
+- [x] Give an overview of the show- you can use text or visualizations here.  Introduce your reader to your show, and give some context.  When did it run and on what platform?  How many seasons and episodes were in the show?  Who are the main characters?  What genre is it in? 
 - [ ] I want to understand how important different characters are when considering 1) the show as a whole and 2) a selected season.  
     - [ ] How many episodes do they appear in overall? 
     - [ ] How much do they speak in the show overall? (lines or dialogue, or words could be used here).
