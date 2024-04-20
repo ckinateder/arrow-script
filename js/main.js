@@ -1,4 +1,7 @@
 const excludeCharacters = [">>>>>>> master", "=======", "<<<<<<< HEAD"];
+const fillColor = "steelblue";
+const accentColor = "orange";
+
 d3.csv("data/transcripts.csv").then((data) => {
   console.log(`decoding ${data.length} rows`);
   processedData = [];

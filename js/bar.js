@@ -71,9 +71,9 @@ class CharacterBarChart {
       .attr("y", (d) => this.y(d.character))
       .attr("width", (d) => this.x(d.lines))
       .attr("height", this.y.bandwidth())
-      .attr("fill", "steelblue")
+      .attr("fill", fillColor)
       .on("mousemove", function (event, d) {
-        d3.select(this).attr("fill", "orange");
+        d3.select(this).attr("fill", accentColor);
         // add tooltip
 
         d3.select("#tooltip")
@@ -88,7 +88,8 @@ class CharacterBarChart {
           .style("top", event.pageY + 10 + "px");
       })
       .on("mouseout", function (event, d) {
-        d3.select(this).attr("fill", "steelblue");
+        d3.select(this).attr("fill", fillColor);
+        d3.select("#tooltip").style("opacity", 0);
       });
 
     // add the x-axis
