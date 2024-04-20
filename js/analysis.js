@@ -7,7 +7,19 @@
 
 function getTopCharactersOverall(data) {
   const characterLines = [];
-  // { character: "Michael Scott", type: "main", lines: 1000, episodes: [{season: 1, episode: 1}, {season: 1, episode: 2}], numEpisodes: 2}
+  /*
+    {
+        character: "Michael Scott",
+        type: "main",
+        lines: 1000,
+        episodes: [
+            {season: 1, episode: 1},
+            {season: 1, episode: 2}
+        ],
+        seasons: [1, 2],
+        numEpisodes: 2,
+    }
+  */
   data.forEach((d) => {
     const characterIndex = characterLines.findIndex(
       (c) => c.character === d.character
@@ -19,6 +31,7 @@ function getTopCharactersOverall(data) {
         lines: 1,
         episodes: [{ season: d.season, episode: d.episode }],
         numEpisodes: 1,
+        seasons: [d.season],
       });
     } else {
       characterLines[characterIndex].lines += 1;
@@ -33,6 +46,13 @@ function getTopCharactersOverall(data) {
           episode: d.episode,
         });
       }
+      // check if the season is already in the array
+      const seasonIndex = characterLines[characterIndex].seasons.findIndex(
+        (s) => s === d.season
+      );
+      if (seasonIndex === -1) {
+        characterLines[characterIndex].seasons.push(d.season);
+      }
     }
   });
 
@@ -45,6 +65,38 @@ function getTopCharactersOverall(data) {
     } else {
       return b.lines - a.lines;
     }
+  });
+
+  // condense the seasons array, account for gaps
+  // for example, if the seasons array is [1, 2, 3, 5, 6, 7]
+  // it should return "1-3, 5-7"
+  // if the seasons array is [1, 2, 3, 4, 5, 6, 7]
+  // it should return "1-7"
+
+  characterLines.forEach((c) => {
+    c.seasons.sort((a, b) => a - b);
+    const seasonRanges = [];
+    let start = c.seasons[0];
+    let end = c.seasons[0];
+    for (let i = 1; i < c.seasons.length; i++) {
+      if (c.seasons[i] - end === 1) {
+        end = c.seasons[i];
+      } else {
+        if (start === end) {
+          seasonRanges.push(start);
+        } else {
+          seasonRanges.push(`${start}-${end}`);
+        }
+        start = c.seasons[i];
+        end = c.seasons[i];
+      }
+    }
+    if (start === end) {
+      seasonRanges.push(start);
+    } else {
+      seasonRanges.push(`${start}-${end}`);
+    }
+    c.seasons = seasonRanges;
   });
 
   return characterLines;

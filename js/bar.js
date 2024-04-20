@@ -81,7 +81,8 @@ class CharacterBarChart {
           .html(
             `<div>Character: ${d.character}</div>
             <div>Lines: ${d.lines}</div>
-            <div>Episodes: ${d.numEpisodes}</div>`
+            <div>Episodes: ${d.numEpisodes}</div>
+            <div>Seasons: ${d.seasons}</div>`
           );
         d3.select("#tooltip")
           .style("left", event.pageX + 10 + "px")
