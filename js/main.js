@@ -2,7 +2,7 @@ const excludeCharacters = [">>>>>>> master", "=======", "<<<<<<< HEAD"];
 const fillColor = "steelblue";
 const accentColor = "orange";
 const numCharacters = 10;
-
+const majorCharacters = ["Frasier", "Niles", "Martin", "Daphne", "Roz"];
 let characterData;
 
 d3.csv("data/transcripts.csv").then((data) => {
@@ -37,25 +37,8 @@ d3.csv("data/transcripts.csv").then((data) => {
 
   console.log(`processed ${processedData.length} rows`);
 
-  // get the top characters overall
-  characterData = getTopCharactersOverall(processedData);
-  characterData = characterData.slice(0, numCharacters);
-
-  // now add links for the top 10 characters
-  characterData.forEach((d) => {
-    let link;
-    if (d.character === "Freddie") {
-      link = "https://frasier.fandom.com/wiki/Frederick_Crane";
-    } else if (d.character === "Bulldog") {
-      link = "https://frasier.fandom.com/wiki/Bulldog_Brisco";
-    } else {
-      let joinedName = d.charactername.split(" ").join("_");
-      link = `https://frasier.fandom.com/wiki/${joinedName}`;
-    }
-    d.link = link;
-  });
-
+  //characterData = characterData.slice(0, numCharacters);
   // create the bar chart and top characters
-  const barChart = new CharacterBarChart(characterData);
-  const topCharacters = new TopCharacters(characterData);
+  const barChart = new CharacterBarChart(processedData);
+  const averagg = new LinesOverTime(processedData);
 });

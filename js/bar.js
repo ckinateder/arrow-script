@@ -1,13 +1,17 @@
+/**
+ * This class assumes that the data passed to it is from the output of the getTopCharactersOverall function
+ */
+
 class CharacterBarChart {
   constructor(data, _config) {
     this.config = {
       parentElement: "#characterbarchart",
-      title: "Top Characters by Number of Lines",
+      title: "Main Characters by Number of Lines",
       yAxisLabel: "Character",
       xAxisLabel: "Number of Lines",
-      containerWidth: 800,
-      containerHeight: 600,
-      margin: { top: 50, bottom: 70, right: 20, left: 80 },
+      containerWidth: 1000,
+      containerHeight: 800,
+      margin: { top: 50, bottom: 70, right: 20, left: 100 },
       yPadding: 0.1, // padding for the y-axis (percentage of the range)
     };
     this.computeDimensions();
@@ -44,8 +48,6 @@ class CharacterBarChart {
     let vis = this;
     vis.svg.selectAll("*").remove();
 
-    console.log(this.data);
-
     // create scales
     this.x = d3
       .scaleLinear()
@@ -68,7 +70,9 @@ class CharacterBarChart {
       .join("rect")
       .attr("x", this.x(0))
       .attr("y", (d) => this.y(d.character))
-      .attr("width", (d) => this.x(d.lines))
+      .attr("width", (d) => {
+        return this.x(d.lines) - this.x(0);
+      })
       .attr("height", this.y.bandwidth())
       .attr("fill", fillColor)
       .on("mousemove", function (event, d) {
@@ -77,7 +81,7 @@ class CharacterBarChart {
         d3.select("#tooltip")
           .style("opacity", 1)
           .html(
-            `<div>Character: ${d.character} (${d.type})</div>
+            `<div>Character: ${d.character} (${d.charactertype})</div>
             <div>Lines: ${d.lines}</div>
             <div>Episodes: ${d.numEpisodes}</div>
             <div>Seasons: ${d.seasons}</div>`
@@ -151,7 +155,14 @@ class CharacterBarChart {
   render() {}
 
   updateData(data) {
-    this.data = data;
+    let characterData = getTopCharactersOverall(data);
+
+    characterData = characterData.filter(
+      (d) =>
+        d.charactertype === "main" ||
+        (d.charactertype === "recurring" && d.lines > 100)
+    );
+    this.data = characterData;
   }
   computeDimensions() {
     this.width =

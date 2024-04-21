@@ -25,14 +25,17 @@ function getTopCharactersOverall(data) {
       (c) => c.character === d.character
     );
     if (characterIndex === -1) {
+      let query = d.charactername.replace(" ", "+");
+      let link = `https://frasier.fandom.com/wiki/Special:Search?query=${query}`;
       characterLines.push({
         character: d.character,
         charactername: d.charactername,
-        type: d.charactertype,
+        charactertype: d.charactertype,
         lines: 1,
         episodes: [{ season: d.season, episode: d.episode }],
         numEpisodes: 1,
         seasons: [d.season],
+        link: link,
       });
     } else {
       characterLines[characterIndex].lines += 1;
@@ -101,4 +104,65 @@ function getTopCharactersOverall(data) {
   });
 
   return characterLines;
+}
+
+/**
+ * This function returns the number of lines spoken by each character in each episode.
+ * @param {Array} data - the processed data
+ * @param {Array} onlyCharacters - an array of character names to include in the analysis. If null, include all characters
+ * @returns {Array} - an array of objects with the following structure:
+ * [
+ *  {
+ *    characters: [
+ *      {
+ *       character: "Frasier",
+ *      lines: 100
+ *      }],
+ *    season: 1,
+ *    epsiode: 1
+ *  },
+ * ]
+ */
+function getLinesPerEpisode(data, onlyCharacters = null) {
+  const linesData = [];
+  data.forEach((d) => {
+    if (onlyCharacters && !onlyCharacters.includes(d.character)) {
+      return;
+    }
+    const episodeIndex = linesData.findIndex(
+      (e) => e.season === d.season && e.episode === d.episode
+    );
+    if (episodeIndex === -1) {
+      linesData.push({
+        season: d.season,
+        episode: d.episode,
+        characters: [{ character: d.character, lines: 1 }],
+      });
+    } else {
+      const characterIndex = linesData[episodeIndex].characters.findIndex(
+        (c) => c.character === d.character
+      );
+      if (characterIndex === -1) {
+        linesData[episodeIndex].characters.push({
+          character: d.character,
+          lines: 1,
+        });
+      } else {
+        linesData[episodeIndex].characters[characterIndex].lines += 1;
+      }
+    }
+  });
+
+  // sort by season and episode
+  linesData.sort((a, b) => {
+    if (a.season === b.season) {
+      return a.episode - b.episode;
+    } else {
+      return a.season - b.season;
+    }
+  });
+
+  // add attribute for
+
+  return linesData;
 }
