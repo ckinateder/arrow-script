@@ -107,7 +107,7 @@ class LinesOverTime {
         .attr("fill", "none")
         .classed("line", true)
         .attr("stroke", color(c))
-        .attr("stroke-width", 1.5)
+        .attr("stroke-width", 2)
         .attr(
           "d",
           d3
