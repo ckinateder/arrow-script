@@ -12,7 +12,7 @@ class LinesOverTime {
       xAxisLabel: "Episode",
       containerWidth: 1400,
       containerHeight: 600,
-      margin: { top: 50, bottom: 70, right: 20, left: 80 },
+      margin: { top: 50, bottom: 40, right: 20, left: 60 },
       yPadding: 0.1, // padding for the y-axis (percentage of the range)
     };
     this.computeDimensions();
@@ -162,8 +162,36 @@ class LinesOverTime {
         });
     });
 
-    // when mouse moves over the line, make everything else fade
-    // and show the tooltip
+    // add the title
+    vis.svg
+      .append("text")
+      .attr("x", vis.width / 2)
+      .attr("y", 0 + vis.config.margin.top - 10)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text(vis.config.title);
+
+    // add y axis label
+    vis.svg
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("x", -vis.height / 2)
+      .attr("id", "y-axis-label")
+      .attr("dy", ".75em")
+      .style("font-size", "12px")
+      .text(vis.config.yAxisLabel);
+
+    // add x axis label
+    vis.svg
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("x", vis.width / 2)
+      .attr("y", vis.height - 6)
+      .attr("id", "x-axis-label")
+      .style("font-size", "12px")
+      .text(vis.config.xAxisLabel);
   }
   computeDimensions() {
     this.width =
