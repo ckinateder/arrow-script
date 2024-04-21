@@ -1,17 +1,16 @@
 class CharacterBarChart {
-  constructor(data, _config, numCharacters = 10) {
+  constructor(data, _config) {
     this.config = {
       parentElement: "#characterbarchart",
-      title: "Top Characters Overall",
+      title: "Top Characters by Number of Lines",
       yAxisLabel: "Character",
       xAxisLabel: "Number of Lines",
       containerWidth: 800,
       containerHeight: 600,
-      margin: { top: 50, bottom: 70, right: 10, left: 80 },
+      margin: { top: 50, bottom: 70, right: 20, left: 80 },
       yPadding: 0.1, // padding for the y-axis (percentage of the range)
     };
     this.computeDimensions();
-    this.numCharacters = numCharacters || 10;
     this.updateData(data);
 
     this.attr1 = "character";
@@ -75,11 +74,10 @@ class CharacterBarChart {
       .on("mousemove", function (event, d) {
         d3.select(this).attr("fill", accentColor);
         // add tooltip
-
         d3.select("#tooltip")
           .style("opacity", 1)
           .html(
-            `<div>Character: ${d.character}</div>
+            `<div>Character: ${d.character} (${d.type})</div>
             <div>Lines: ${d.lines}</div>
             <div>Episodes: ${d.numEpisodes}</div>
             <div>Seasons: ${d.seasons}</div>`
@@ -105,11 +103,18 @@ class CharacterBarChart {
       .attr("transform", "translate(-10,0)rotate(-45)")
       .style("text-anchor", "end");
 
-    // add the y-axis
+    // add the y-axis with hyperlinks
     this.svg
       .append("g")
       .call(d3.axisLeft(this.y))
-      .attr("transform", `translate(${this.config.margin.left}, 0)`);
+      .attr("transform", `translate(${this.config.margin.left}, 0)`)
+      .selectAll("text")
+      .on("click", function (event, d) {
+        // get link with matching character name in the data
+        const link = vis.data.find((c) => c.character === d).link;
+        if (link) window.open(link, "_blank");
+      })
+      .style("cursor", "pointer");
 
     // add the title
     vis.svg
@@ -146,8 +151,7 @@ class CharacterBarChart {
   render() {}
 
   updateData(data) {
-    this.data = getTopCharactersOverall(data);
-    this.data = this.data.slice(0, this.numCharacters);
+    this.data = data;
   }
   computeDimensions() {
     this.width =
@@ -158,9 +162,5 @@ class CharacterBarChart {
       this.config.containerHeight -
       this.config.margin.top -
       this.config.margin.bottom;
-  }
-  setNumCharacters(numCharacters) {
-    this.numCharacters = numCharacters;
-    this.updateData(this.data);
   }
 }

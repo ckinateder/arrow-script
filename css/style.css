@@ -19,8 +19,7 @@ h3 {
   margin: 4px 0px;
 }
 
-#show-overview,
-#character-stats {
+#show-overview {
   width: fit-content;
   margin-top: 10px;
   border: 1px solid #333;

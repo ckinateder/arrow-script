@@ -1,6 +1,9 @@
 const excludeCharacters = [">>>>>>> master", "=======", "<<<<<<< HEAD"];
 const fillColor = "steelblue";
 const accentColor = "orange";
+const numCharacters = 10;
+
+let characterData;
 
 d3.csv("data/transcripts.csv").then((data) => {
   console.log(`decoding ${data.length} rows`);
@@ -31,8 +34,28 @@ d3.csv("data/transcripts.csv").then((data) => {
     if (p.character in excludeCharacters) {
     } else processedData.push(p);
   });
-  console.log(`processed ${processedData.length} rows`);
-  console.log(processedData[0]);
 
-  const barChart = new CharacterBarChart(data);
+  console.log(`processed ${processedData.length} rows`);
+
+  // get the top characters overall
+  characterData = getTopCharactersOverall(processedData);
+  characterData = characterData.slice(0, numCharacters);
+
+  // now add links for the top 10 characters
+  characterData.forEach((d) => {
+    let link;
+    if (d.character === "Freddie") {
+      link = "https://frasier.fandom.com/wiki/Frederick_Crane";
+    } else if (d.character === "Bulldog") {
+      link = "https://frasier.fandom.com/wiki/Bulldog_Brisco";
+    } else {
+      let joinedName = d.charactername.split(" ").join("_");
+      link = `https://frasier.fandom.com/wiki/${joinedName}`;
+    }
+    d.link = link;
+  });
+
+  // create the bar chart and top characters
+  const barChart = new CharacterBarChart(characterData);
+  const topCharacters = new TopCharacters(characterData);
 });

@@ -27,6 +27,7 @@ function getTopCharactersOverall(data) {
     if (characterIndex === -1) {
       characterLines.push({
         character: d.character,
+        charactername: d.charactername,
         type: d.charactertype,
         lines: 1,
         episodes: [{ season: d.season, episode: d.episode }],
