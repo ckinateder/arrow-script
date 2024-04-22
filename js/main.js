@@ -41,4 +41,5 @@ d3.csv("data/transcripts.csv").then((data) => {
   // create the bar chart and top characters
   const barChart = new CharacterBarChart(processedData);
   const averagg = new LinesOverTime(processedData);
+  const characterWordCloud = new WordCloud(processedData);
 });
