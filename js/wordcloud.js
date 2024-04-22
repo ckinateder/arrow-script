@@ -2,13 +2,13 @@ class WordCloud {
   constructor(data, selectedName, _config) {
     // Configuration object with defaults
     this.config = {
-      parentElement: "#characterwordcloud",
+      parentElement: _config.parentElement || "#characterwordcloud",
       // colorScale: _config.colorScale,
-      containerWidth: 950,
-      containerHeight: 500,
-      margin: { top: 50, bottom: 10, right: 10, left: 60 },
-      numWords: 50,
-      title: "Word Cloud",
+      containerWidth: _config.containerWidth || 800,
+      containerHeight: _config.containerHeight || 600,
+      margin: _config.margin || { top: 10, bottom: 10, right: 10, left: 10 },
+      numWords: _config.numWords || 50,
+      title: _config.title || "Word Cloud",
     };
     //   this.setData(_data, attribute, transformFunction);
     this.setName(selectedName);
@@ -129,7 +129,7 @@ class WordCloud {
     vis.svg
       .append("text")
       .attr("x", vis.width / 2)
-      .attr("y", 0 + vis.config.margin.top - 10)
+      .attr("y", 0 + vis.config.margin.top + 30)
       .attr("text-anchor", "middle")
       .style("font-size", "16px")
       .text(vis.config.title);

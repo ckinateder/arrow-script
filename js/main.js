@@ -39,7 +39,23 @@ d3.csv("data/transcripts.csv").then((data) => {
 
   //characterData = characterData.slice(0, numCharacters);
   // create the bar chart and top characters
-  const barChart = new CharacterBarChart(processedData);
-  const averagg = new LinesOverTime(processedData);
-  const characterWordCloud = new WordCloud(processedData, "Frasier");
+  const barChart = new CharacterBarChart(processedData, {
+    parentElement: "#characterbarchart",
+    containerWidth: 800,
+    containerHeight: 600,
+    margin: { top: 50, bottom: 40, right: 20, left: 100 },
+  });
+  const averagg = new LinesOverTime(processedData, {
+    parentElement: "#linesovertime",
+    containerWidth: 1600,
+    containerHeight: 600,
+    margin: { top: 50, bottom: 40, right: 20, left: 60 },
+  });
+  const characterWordCloud = new WordCloud(processedData, "Frasier", {
+    parentElement: "#characterwordcloud",
+    containerWidth: 700,
+    containerHeight: 600,
+    margin: { top: 10, bottom: 10, right: 10, left: 10 },
+    numWords: 50,
+  });
 });

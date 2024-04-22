@@ -6,15 +6,18 @@
 class LinesOverTime {
   constructor(data, _config) {
     this.config = {
-      parentElement: "#linesovertime",
-      title: "Avg Lines Spoken by Character per Episode",
-      yAxisLabel: "Number of Lines",
-      xAxisLabel: "Episode",
-      containerWidth: 1400,
-      containerHeight: 600,
-      margin: { top: 50, bottom: 40, right: 20, left: 60 },
-      yPadding: 0.1, // padding for the y-axis (percentage of the range)
+      parentElement: _config.parentElement || "#linesovertime",
+      title:
+        _config.title ||
+        "Average Number of Lines Spoken by Characte per Episode",
+      yAxisLabel: _config.yAxisLabel || "Number of Lines",
+      xAxisLabel: _config.xAxisLabel || "Episode",
+      containerWidth: _config.containerWidth || 800,
+      containerHeight: _config.containerHeight || 600,
+      margin: _config.margin || { top: 50, bottom: 40, right: 20, left: 60 },
+      yPadding: _config.yPadding || 0.1,
     };
+
     this.computeDimensions();
     this.updateData(data);
     this.init();

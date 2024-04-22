@@ -5,13 +5,13 @@
 class CharacterBarChart {
   constructor(data, _config) {
     this.config = {
-      parentElement: "#characterbarchart",
-      title: "Main Characters by Number of Lines",
-      yAxisLabel: "Character",
-      xAxisLabel: "Number of Lines",
-      containerWidth: 1000,
-      containerHeight: 800,
-      margin: { top: 50, bottom: 70, right: 20, left: 100 },
+      parentElement: _config.parentElement || "#characterbarchart",
+      title: _config.title || "Main Characters by Number of Lines",
+      yAxisLabel: _config.yAxisLabel || "Character",
+      xAxisLabel: _config.xAxisLabel || "Number of Lines",
+      containerWidth: _config.containerWidth || 800,
+      containerHeight: _config.containerHeight || 600,
+      margin: _config.margin || { top: 50, bottom: 70, right: 20, left: 100 },
       yPadding: 0.1, // padding for the y-axis (percentage of the range)
     };
     this.computeDimensions();
@@ -30,10 +30,8 @@ class CharacterBarChart {
       vis.config.containerWidth -
       vis.config.margin.left -
       vis.config.margin.right;
-    vis.height =
-      vis.config.containerHeight -
-      vis.config.margin.top -
-      vis.config.margin.bottom;
+
+    vis.height = vis.config.containerHeight - vis.config.margin.bottom;
 
     vis.svg = d3
       .select(vis.config.parentElement)
@@ -105,7 +103,9 @@ class CharacterBarChart {
       .call(d3.axisBottom(this.x))
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+      .style("text-anchor", "end")
+      // format by thousands "1k"
+      .text((d) => (d >= 1000 ? `${d / 1000}k` : d));
 
     // add the y-axis with hyperlinks
     this.svg
@@ -146,7 +146,7 @@ class CharacterBarChart {
       .append("text")
       .attr("text-anchor", "middle")
       .attr("x", vis.width / 2)
-      .attr("y", vis.height - 6)
+      .attr("y", vis.height)
       .attr("id", "x-axis-label")
       .style("font-size", "12px")
       .text(vis.config.xAxisLabel);
