@@ -166,3 +166,13 @@ function getLinesPerEpisode(data, onlyCharacters = null) {
 
   return linesData;
 }
+
+function getCharacterData(data, selectedName) {
+  const characterLines = [];
+  data.forEach((d) => {
+    if (d.character === selectedName) {
+      characterLines.push(d.lines);
+    }
+  });
+  return characterLines;
+}
