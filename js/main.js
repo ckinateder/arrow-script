@@ -41,9 +41,5 @@ d3.csv("data/transcripts.csv").then((data) => {
   // create the bar chart and top characters
   const barChart = new CharacterBarChart(processedData);
   const averagg = new LinesOverTime(processedData);
-<<<<<<< Updated upstream
-=======
-  const characterWordCloud = new WordCloud(processedData);
   const characterArcDiagram = new ArcDiagram(processedData);
->>>>>>> Stashed changes
 });
