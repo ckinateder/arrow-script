@@ -7,7 +7,7 @@ class LinesOverTime {
   constructor(data, _config) {
     this.config = {
       parentElement: "#linesovertime",
-      title: "Lines Spoken by Character Over Time",
+      title: "Avg Lines Spoken by Character per Episode",
       yAxisLabel: "Number of Lines",
       xAxisLabel: "Episode",
       containerWidth: 1400,
