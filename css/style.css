@@ -11,10 +11,11 @@
   display: flex;
   justify-content: space-between;
   width: fit-content;
+  padding: 5px;
 }
 
-#characterwordcloud {
-  border-left: #333 1px solid;
+#characterbarchart {
+  border-right: #333 1px solid;
 }
 
 .chart {

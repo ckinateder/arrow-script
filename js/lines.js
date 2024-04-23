@@ -97,7 +97,7 @@ class LinesOverTime {
       .call(this.yAxis);
 
     // color scale for characters
-    const color = d3
+    vis.color = d3
       .scaleOrdinal()
       .domain(majorCharacters)
       .range(d3.schemeCategory10);
@@ -109,7 +109,7 @@ class LinesOverTime {
         .datum(vis.data)
         .attr("fill", "none")
         .classed("line", true)
-        .attr("stroke", color(c))
+        .attr("stroke", vis.color(c))
         .attr("stroke-width", 2)
         .attr(
           "d",
@@ -195,6 +195,58 @@ class LinesOverTime {
       .attr("id", "x-axis-label")
       .style("font-size", "12px")
       .text(vis.config.xAxisLabel);
+
+    // add background to legend
+    vis.svg
+      .append("rect")
+      .attr("x", vis.width - vis.config.margin.right - 100)
+      .attr("y", 0)
+      .attr("width", 100)
+      .attr("height", majorCharacters.length * 20)
+      .style("fill", "white")
+      .style("opacity", 0.7);
+
+    // add legend with color scale
+    const legend = vis.svg
+      .selectAll(".legend")
+      .data(majorCharacters)
+      .enter()
+      .append("g")
+      .attr("transform", (d, i) => {
+        return `translate(0, ${i * 20})`;
+      });
+
+    legend
+      .append("rect")
+      .attr("x", vis.width - vis.config.margin.right - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", (d) => vis.color(d));
+
+    legend
+      .append("text")
+      .attr("x", vis.width - vis.config.margin.right - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text((d) => d);
+
+    // highlight on hover over each element of the legend
+    legend
+      .on("mouseover", function (event, d) {
+        d3.selectAll(".line").style("opacity", 0.1);
+        // get the character name
+        const character = d;
+
+        // get the index of the character
+        const index = majorCharacters.indexOf(character);
+
+        // select line for the character
+        d3.select(`.line:nth-child(${index + 3})`).style("opacity", 1);
+      })
+      .on("mouseout", function (event, d) {
+        d3.selectAll(".line").style("opacity", 1);
+      });
   }
   computeDimensions() {
     this.width =
