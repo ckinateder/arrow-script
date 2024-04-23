@@ -1,11 +1,13 @@
 class ArcDiagram {
   constructor(_data, _config) {
     this.config = {
-      parentElement: "#arcdiagram",
-      title: "Character Interaction",
-      containerWidth: 1400,
-      containerHeight: 600,
-      margin: { top: 20, right: 20, bottom: 20, left: 20 },
+      parentElement: _config.parentElement || "#arcdiagram",
+      title: _config.characterDropdownElement || "Character Interaction",
+      containerWidth: _config.containerWidth || 1400,
+      containerHeight: _config.containerHeight || 600,
+      margin: _config.margin || { top: 20, right: 20, bottom: 20, left: 20 },
+      seasonDropdownElement:
+        _config.seasonDropdownElement || "#wordcloud-season-select",
       yPadding: 0.1, // padding for the y-axis (percentage of the range)
     };
     this.data = _data;
@@ -37,11 +39,20 @@ class ArcDiagram {
         "transform",
         `translate(${vis.config.margin.left},${vis.config.margin.top})`
       );
+    // add season dropdown
+    d3.select(vis.config.seasonDropdownElement)
+      .selectAll("option")
+      .data(seasons)
+      .enter()
+      .append("option")
+      .attr("value", (d) => d)
+      .text((d) => d);
 
     this.updateVis();
   }
   updateVis() {
     let vis = this;
+    vis.svg.selectAll("*").remove();
     // Extracting data
     let transcriptOrder = vis.data.map(function (d) {
       return d.character;
