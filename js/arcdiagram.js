@@ -7,12 +7,13 @@ class ArcDiagram {
       containerHeight: _config.containerHeight || 600,
       margin: _config.margin || { top: 20, right: 20, bottom: 20, left: 20 },
       seasonDropdownElement:
-        _config.seasonDropdownElement || "#wordcloud-season-select",
+        _config.seasonDropdownElement || "#arc-season-select",
       yPadding: 0.1, // padding for the y-axis (percentage of the range)
     };
     this.data = _data;
     // // this.computeDimensions();
     // // this.updateData(data);
+    this.selectedSeason = "All";
     this.offset = 30;
     this.initVis();
   }
@@ -48,15 +49,28 @@ class ArcDiagram {
       .attr("value", (d) => d)
       .text((d) => d);
 
+    d3.select(vis.config.seasonDropdownElement).on("change", function () {
+      vis.setSeason(this.value);
+      vis.updateVis();
+    });
+
     this.updateVis();
   }
   updateVis() {
     let vis = this;
     vis.svg.selectAll("*").remove();
     // Extracting data
-    let transcriptOrder = vis.data.map(function (d) {
+    let seasonData = vis.data.filter((d) => {
+      if (vis.selectedSeason === "All" || vis.selectedSeason === undefined) {
+        return true;
+      } else {
+        return d.season === vis.selectedSeason;
+      }
+    });
+    let transcriptOrder = seasonData.map(function (d) {
       return d.character;
     });
+
     let arcData = vis.getCharacterInteractions(transcriptOrder);
     let nameData = vis.getCharacterNames(arcData);
     // Create a linear scale for positioning the nodes on the X axis
@@ -79,7 +93,7 @@ class ArcDiagram {
     const scale = d3
       .scaleLinear()
       .domain([0, d3.max(arcData, (d) => d.value)])
-      .range([1, 3]);
+      .range([1, 5]);
 
     // Add links between nodes
     vis.svg
@@ -235,5 +249,8 @@ class ArcDiagram {
     const uniqueNamesArray = Array.from(uniqueNamesSet);
 
     return uniqueNamesArray;
+  }
+  setSeason(newSeason) {
+    this.selectedSeason = newSeason;
   }
 }
