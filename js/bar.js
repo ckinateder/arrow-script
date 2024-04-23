@@ -162,7 +162,7 @@ class CharacterBarChart {
     characterData = characterData.filter(
       (d) =>
         d.charactertype === "main" ||
-        (d.charactertype === "recurring" && d.lines > 100)
+        (d.charactertype === "recurring" && d.lines > 50)
     );
     this.data = characterData;
   }

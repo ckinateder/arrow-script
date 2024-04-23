@@ -125,7 +125,7 @@ class ArcDiagram {
       })
       .style("fill", "none")
       .attr("stroke", (d) => color(d.value))
-      .attr("stroke-width", (d) => (scale(d.value)*3));
+      .attr("stroke-width", (d) => scale(d.value) * 3);
 
     // Add circles for the nodes
     const nodes = vis.svg
@@ -153,27 +153,28 @@ class ArcDiagram {
         // show tooltip
 
         // get element in arcData that corresponds to this node
-        const nodeData = arcData.find(
-          (node) => node.source === d || node.target === d
-        );
-        let message = `<div><strong>${nodeData.source} <> ${nodeData.target}</strong></div>`;
-        message += `<div>${nodeData.value} interactions</div>`;
-
         let text = "";
         const allConnections = arcData.filter(
           (node) => node.source === d || node.target === d
         );
         allConnections.forEach((connection) => {
-          text += `<div><strong>${connection.source} <> ${connection.target}</strong>: ${connection.value} interactions</div>`;
+          // d is always the source of the connection, so swap source and target if d is the target
+          const a =
+            d === connection.source ? connection.source : connection.target;
+          const b =
+            d === connection.source ? connection.target : connection.source;
+          text += `<div><strong>${a} <> ${b}</strong> ${connection.value} interactions</div>`;
         });
-        message = text;
+
+        let numLines = allConnections.length;
+        let tooltipHeight = numLines * 18;
 
         // get the position of the tooltip
         d3.select("#tooltip")
           .style("opacity", 1)
-          .html(message)
+          .html(text)
           .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY + 10 + "px");
+          .style("top", event.pageY - tooltipHeight + "px");
       })
       .on("mouseout", function (event, d) {
         d3.select("#tooltip").style("opacity", 0);

@@ -7,9 +7,7 @@ class LinesOverTime {
   constructor(data, _config) {
     this.config = {
       parentElement: _config.parentElement || "#linesovertime",
-      title:
-        _config.title ||
-        "Average Number of Lines Spoken by Character per Episode",
+      title: _config.title || "Number of Lines Spoken by Character per Episode",
       yAxisLabel: _config.yAxisLabel || "Number of Lines",
       xAxisLabel: _config.xAxisLabel || "Episode",
       containerWidth: _config.containerWidth || 800,
