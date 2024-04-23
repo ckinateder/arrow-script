@@ -3,6 +3,10 @@ class WordCloud {
     // Configuration object with defaults
     this.config = {
       parentElement: _config.parentElement || "#characterwordcloud",
+      characterDropdownElement:
+        _config.characterDropdownElement || "#wordcloud-character-select",
+      seasonDropdownElement:
+        _config.seasonDropdownElement || "#wordcloud-season-select",
       // colorScale: _config.colorScale,
       containerWidth: _config.containerWidth || 800,
       containerHeight: _config.containerHeight || 600,
@@ -34,6 +38,24 @@ class WordCloud {
       .attr("width", vis.width)
       .attr("height", vis.height);
 
+    // add character dropdown
+    d3.select(vis.config.characterDropdownElement)
+      .selectAll("option")
+      .data(majorCharacters)
+      .enter()
+      .append("option")
+      .attr("value", (d) => d)
+      .text((d) => d);
+
+    // add season dropdown
+    d3.select(vis.config.seasonDropdownElement)
+      .selectAll("option")
+      .data(seasons)
+      .enter()
+      .append("option")
+      .attr("value", (d) => d)
+      .text((d) => d);
+
     this.updateVis();
   }
 
@@ -45,7 +67,6 @@ class WordCloud {
 
     // only data inFilter
     //   let data = vis.data.filter((d) => inFilter(d));
-
     let myWords = getCharacterData(vis.data, vis.selectedName);
 
     let wrdCloudArray = vis.getWordsByFrequency(myWords);
@@ -89,7 +110,7 @@ class WordCloud {
             (d) => "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")"
           )
           .text((d) => d.text)
-          .on("mouseover", function (event, d) {
+          .on("mousemove", function (event, d) {
             // set cursor to pointer
             d3.select(this).style("cursor", "default");
 

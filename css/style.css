@@ -7,14 +7,18 @@
 }
 
 .side-by-side {
+  border: 1px solid #333;
   display: flex;
   justify-content: space-between;
   width: fit-content;
 }
 
+#characterwordcloud {
+  border-left: #333 1px solid;
+}
+
 .chart {
   width: fit-content;
-  border: 1px solid #333;
   margin: 5px 0px;
 }
 

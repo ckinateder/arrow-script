@@ -3,6 +3,7 @@ const fillColor = "steelblue";
 const accentColor = "orange";
 const numCharacters = 10;
 const majorCharacters = ["Frasier", "Niles", "Martin", "Daphne", "Roz"];
+const seasons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 let characterData;
 
 d3.csv("data/transcripts.csv").then((data) => {
