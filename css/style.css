@@ -4,6 +4,7 @@
   max-width: 1800px;
   margin-top: 10px;
   display: none;
+  border-bottom: #333 1px solid;
 }
 #show-help {
   width: fit-content;
@@ -11,6 +12,7 @@
   max-width: 1800px;
   margin-top: 10px;
   display: none;
+  border-bottom: #333 1px solid;
 }
 .side-by-side {
   display: flex;
