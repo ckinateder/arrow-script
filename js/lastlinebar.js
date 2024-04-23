@@ -6,7 +6,7 @@ class LastLineBarChart {
   constructor(data, _config) {
     this.config = {
       parentElement: _config.parentElement || "#lastlinebarchart",
-      title: _config.title || "Characters with The Last Line",
+      title: _config.title || "Characters with the Last Line",
       yAxisLabel: _config.yAxisLabel || "Character",
       xAxisLabel: _config.xAxisLabel || "Number of Episodes",
       containerWidth: _config.containerWidth || 800,
@@ -49,6 +49,7 @@ class LastLineBarChart {
     let episodeTrackerData = this.getData(cdata);
     let lastLines = this.getLastLines(episodeTrackerData);
     let refinedData = this.refineData(lastLines);
+    console.log(refinedData);
 
     vis.svg.selectAll("*").remove();
 
@@ -86,7 +87,7 @@ class LastLineBarChart {
           .style("opacity", 1)
           .html(
             `<div>Character: ${d.character}</div>
-            <div>Episodes: ${d.numEpisodes}</div>`
+            <div>Episodes: ${d.count}</div>`
           );
         d3.select("#tooltip")
           .style("left", event.pageX + 10 + "px")
@@ -116,13 +117,7 @@ class LastLineBarChart {
       .append("g")
       .call(d3.axisLeft(this.y))
       .attr("transform", `translate(${this.config.margin.left}, 0)`)
-      .selectAll("text")
-      // .on("click", function (event, d) {
-      //   // get link with matching character name in the data
-      //   const link = vis.data.find((c) => c.character === d).link;
-      //   if (link) window.open(link, "_blank");
-      // })
-      .style("cursor", "pointer");
+      .selectAll("text");
 
     // add the title
     vis.svg
@@ -159,12 +154,12 @@ class LastLineBarChart {
   render() {}
 
   getData(data) {
-    let episodeTrackerData = []
+    let episodeTrackerData = [];
     data.forEach((d) => {
       episodeTrackerData.push({
         character: d.character,
-        episode: d.episode
-      })
+        episode: d.episode,
+      });
     });
     return episodeTrackerData;
   }
@@ -173,34 +168,34 @@ class LastLineBarChart {
     let currentEpisode = null;
 
     for (let i = data.length - 1; i >= 0; i--) {
-        const item = data[i];
-        if (item.episode !== currentEpisode || i === data.length - 1) {
-            lastCharacters.push({
-                character: item.character,
-                count: item.episode
-            });
-            currentEpisode = item.episode;
-        }
+      const item = data[i];
+      if (item.episode !== currentEpisode || i === data.length - 1) {
+        lastCharacters.push({
+          character: item.character,
+          count: item.episode,
+        });
+        currentEpisode = item.episode;
+      }
     }
-    return lastCharacters; 
-}
+    return lastCharacters;
+  }
   refineData(data) {
     let characterCounts = {};
-    data.forEach(item => {
-        const character = item.character; 
-        if (characterCounts[character]) {
-            characterCounts[character]++;
-        } else {
-            characterCounts[character] = 1;
-        }
+    data.forEach((item) => {
+      const character = item.character;
+      if (characterCounts[character]) {
+        characterCounts[character]++;
+      } else {
+        characterCounts[character] = 1;
+      }
     });
     const result = [];
     for (let character in characterCounts) {
-        result.push({ character: character, count: characterCounts[character] });
+      result.push({ character: character, count: characterCounts[character] });
     }
 
-    return result;
-}
+    return result.filter((d) => d.count > 1);
+  }
   computeDimensions() {
     this.width =
       this.config.containerWidth -

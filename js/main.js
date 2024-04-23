@@ -42,34 +42,39 @@ d3.csv("data/transcripts.csv").then((data) => {
   // create the bar chart and top characters
   const barChart = new CharacterBarChart(processedData, {
     parentElement: "#characterbarchart",
-    containerWidth: 800,
+    containerWidth: 875,
     containerHeight: 600,
     margin: { top: 50, bottom: 40, right: 20, left: 100 },
   });
-  const averagg = new LinesOverTime(processedData, {
-    parentElement: "#linesovertime",
-    containerWidth: 1600,
-    containerHeight: 600,
-    margin: { top: 50, bottom: 40, right: 20, left: 60 },
-  });
   const characterWordCloud = new WordCloud(processedData, "Frasier", {
     parentElement: "#characterwordcloud",
-    containerWidth: 700,
+    containerWidth: 875,
     containerHeight: 600,
     margin: { top: 10, bottom: 10, right: 10, left: 10 },
     numWords: 50,
   });
-  const characterArcDiagram = new ArcDiagram(processedData, {});
+  const averagg = new LinesOverTime(processedData, {
+    parentElement: "#linesovertime",
+    containerWidth: 1700,
+    containerHeight: 500,
+    margin: { top: 50, bottom: 40, right: 20, left: 60 },
+  });
+  const characterArcDiagram = new ArcDiagram(processedData, {
+    parentElement: "#arcdiagram",
+    containerWidth: 1600,
+    containerHeight: 400,
+    margin: { top: 20, right: 20, bottom: 20, left: 20 },
+  });
   const firstLineTracker = new FirstLineBarChart(processedData, {
     parentElement: "#firstlinebarchart",
-    containerWidth: 800,
-    containerHeight: 600,
+    containerWidth: 900,
+    containerHeight: 300,
     margin: { top: 50, bottom: 40, right: 20, left: 100 },
   });
   const lastLineTracker = new LastLineBarChart(processedData, {
     parentElement: "#lastlinebarchart",
-    containerWidth: 800,
-    containerHeight: 600,
+    containerWidth: 950,
+    containerHeight: 300,
     margin: { top: 50, bottom: 40, right: 20, left: 100 },
   });
 });

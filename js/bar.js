@@ -37,7 +37,9 @@ class CharacterBarChart {
       .select(vis.config.parentElement)
       .append("svg")
       .attr("width", vis.width)
-      .attr("height", vis.height);
+      .attr("height", vis.height)
+      .append("g")
+      .attr("transform", "translate(0,0)");
 
     this.update();
   }

@@ -26,6 +26,10 @@ def parse_columns(
     """
     df = pd.read_csv(path)
     df = df[keep]
+
+    # remove duplicate lines
+    df = df.drop_duplicates()
+
     return df
 
 
