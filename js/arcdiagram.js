@@ -101,6 +101,7 @@ class ArcDiagram {
       .data(arcData)
       .enter()
       .append("path")
+      .classed("arc", true)
       .attr("d", function (d) {
         const start = x(d.source); // X position of start node on the X axis
         const end = x(d.target); // X position of end node
@@ -141,7 +142,7 @@ class ArcDiagram {
         d3.select(this).style("fill", accentColor);
 
         // double the stroke width of all paths that have this node as source or target
-        d3.selectAll("path").style("opacity", function (path) {
+        d3.selectAll(".arc").style("opacity", function (path) {
           if (path === null) return;
           if (d === path.source || d === path.target) {
             return 1;
@@ -170,7 +171,7 @@ class ArcDiagram {
         d3.select("#tooltip").style("opacity", 0);
         if (d == null) return;
         d3.select(this).style("fill", fillColor);
-        d3.selectAll("path").style("opacity", 1);
+        d3.selectAll(".arc").style("opacity", 1);
       });
 
     // Add labels for the nodes
@@ -184,6 +185,25 @@ class ArcDiagram {
       .text((d) => d)
       .style("text-anchor", "middle")
       .style("font-size", "11px");
+
+    // Add  background for title
+    vis.svg
+      .append("rect")
+      .attr("x", vis.width / 2 - 110)
+      .attr("y", 5)
+      .attr("width", 230)
+      .attr("height", 20)
+      .style("fill", "white")
+      .style("opacity", 0.99);
+
+    // Add title
+    vis.svg
+      .append("text")
+      .attr("x", vis.width / 2)
+      .attr("y", 20)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text(vis.config.title);
   }
 
   getCharacterInteractions(namesArray) {
