@@ -176,3 +176,18 @@ function getCharacterData(data, selectedName) {
   });
   return characterLines;
 }
+
+function getLinesByCharacterAndSeason(data, selectedName, selectedSeason) {
+  const characterLines = [];
+  data.forEach((d) => {
+    if (
+      d.character === selectedName &&
+      (d.season === selectedSeason ||
+        selectedSeason === "All" ||
+        selectedSeason === undefined)
+    ) {
+      characterLines.push(d.lines);
+    }
+  });
+  return characterLines;
+}

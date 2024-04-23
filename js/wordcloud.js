@@ -12,9 +12,10 @@ class WordCloud {
       containerHeight: _config.containerHeight || 600,
       margin: _config.margin || { top: 10, bottom: 10, right: 10, left: 10 },
       numWords: _config.numWords || 50,
-      title: _config.title || "Word Cloud",
+      title: "Word Cloud",
     };
     //   this.setData(_data, attribute, transformFunction);
+    this.selectedSeason = undefined;
     this.setName(selectedName);
     this.setData(data);
     this.initVis();
@@ -56,6 +57,17 @@ class WordCloud {
       .attr("value", (d) => d)
       .text((d) => d);
 
+    // add event listener for dropdown
+    d3.select(vis.config.characterDropdownElement).on("change", function () {
+      vis.setName(this.value);
+      vis.updateVis();
+    });
+
+    d3.select(vis.config.seasonDropdownElement).on("change", function () {
+      vis.setSeason(this.value);
+      vis.updateVis();
+    });
+
     this.updateVis();
   }
 
@@ -67,7 +79,11 @@ class WordCloud {
 
     // only data inFilter
     //   let data = vis.data.filter((d) => inFilter(d));
-    let myWords = getCharacterData(vis.data, vis.selectedName);
+    let myWords = getLinesByCharacterAndSeason(
+      vis.data,
+      vis.selectedName,
+      vis.selectedSeason
+    );
 
     let wrdCloudArray = vis.getWordsByFrequency(myWords);
 
@@ -239,5 +255,9 @@ class WordCloud {
   }
   setName(newName) {
     this.selectedName = newName;
+    this.config.title = `Word Cloud for ${newName}`;
+  }
+  setSeason(newSeason) {
+    this.selectedSeason = newSeason;
   }
 }
