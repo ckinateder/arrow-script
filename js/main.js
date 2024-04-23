@@ -60,4 +60,16 @@ d3.csv("data/transcripts.csv").then((data) => {
     numWords: 50,
   });
   const characterArcDiagram = new ArcDiagram(processedData);
+  const firstLineTracker = new FirstLineBarChart(processedData, {
+    parentElement: "#firstlinebarchart",
+    containerWidth: 800,
+    containerHeight: 600,
+    margin: { top: 50, bottom: 40, right: 20, left: 100 },
+  });
+  const lastLineTracker = new LastLineBarChart(processedData, {
+    parentElement: "#lastlinebarchart",
+    containerWidth: 800,
+    containerHeight: 600,
+    margin: { top: 50, bottom: 40, right: 20, left: 100 },
+  });
 });
