@@ -59,4 +59,5 @@ d3.csv("data/transcripts.csv").then((data) => {
     margin: { top: 10, bottom: 10, right: 10, left: 10 },
     numWords: 50,
   });
+  const characterArcDiagram = new ArcDiagram(processedData);
 });
