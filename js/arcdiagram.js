@@ -140,7 +140,6 @@ class ArcDiagram {
       .on("mousemove", function (event, d) {
         if (d == null) return;
         d3.select(this).style("fill", accentColor);
-
         // double the stroke width of all paths that have this node as source or target
         d3.selectAll(".arc").style("opacity", function (path) {
           if (path === null) return;
@@ -159,6 +158,15 @@ class ArcDiagram {
         );
         let message = `<div><strong>${nodeData.source} <> ${nodeData.target}</strong></div>`;
         message += `<div>${nodeData.value} interactions</div>`;
+
+        let text = "";
+        const allConnections = arcData.filter(
+          (node) => node.source === d || node.target === d
+        );
+        allConnections.forEach((connection) => {
+          text += `<div><strong>${connection.source} <> ${connection.target}</strong>: ${connection.value} interactions</div>`;
+        });
+        message = text;
 
         // get the position of the tooltip
         d3.select("#tooltip")

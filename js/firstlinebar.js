@@ -92,6 +92,7 @@ class FirstLineBarChart {
         d3.select("#tooltip")
           .style("left", event.pageX + 10 + "px")
           .style("top", event.pageY + 10 + "px");
+        // shift up by height of tooltip if tooltip is too low
       })
       .on("mouseout", function (event, d) {
         d3.select(this).attr("fill", fillColor);
