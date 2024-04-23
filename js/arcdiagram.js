@@ -16,30 +16,40 @@ class ArcDiagram {
   }
   initVis() {
     let vis = this;
+    // Set the dimensions and margins of the graph
+    vis.width =
+      vis.config.containerWidth -
+      vis.config.margin.left -
+      vis.config.margin.right;
+    vis.height =
+      vis.config.containerHeight -
+      vis.config.margin.top -
+      vis.config.margin.bottom;
 
+    // Append the svg object to the parent element
+    vis.svg = d3
+      .select(vis.config.parentElement)
+      .append("svg")
+      .attr("width", vis.config.containerWidth)
+      .attr("height", vis.config.containerHeight)
+      .append("g")
+      .attr(
+        "transform",
+        `translate(${vis.config.margin.left},${vis.config.margin.top})`
+      );
+
+    this.updateVis();
+  }
+  updateVis() {
+    let vis = this;
     // Extracting data
     let transcriptOrder = vis.data.map(function (d) {
       return d.character;
     });
     let arcData = vis.getCharacterInteractions(transcriptOrder);
     let nameData = vis.getCharacterNames(arcData);
-
-    // Set the dimensions and margins of the graph
-    const margin = vis.config.margin;
-    const width = vis.config.containerWidth - margin.left - margin.right;
-    const height = vis.config.containerHeight - margin.top - margin.bottom;
-
-    // Append the svg object to the parent element
-    const svg = d3
-      .select(vis.config.parentElement)
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
     // Create a linear scale for positioning the nodes on the X axis
-    const x = d3.scalePoint().range([0, width]).domain(nameData);
+    const x = d3.scalePoint().range([0, vis.width]).domain(nameData);
 
     // Create an object for easy access to node data
     const idToNode = {};
@@ -61,7 +71,7 @@ class ArcDiagram {
       .range([1, 3]);
 
     // Add links between nodes
-    svg
+    vis.svg
       .selectAll("mylinks")
       .data(arcData)
       .enter()
@@ -72,7 +82,7 @@ class ArcDiagram {
         return [
           "M",
           start,
-          height - vis.offset, // Arc starts at the coordinate x=start, y=height-vis.offset (where the starting node is)
+          vis.height - vis.offset, // Arc starts at the coordinate x=start, y=height-vis.offset (where the starting node is)
           "A", // We're gonna build an elliptical arc
           (start - end) / 2,
           ",", // Coordinates of the inflexion point. Height of this point is proportional with start - end distance
@@ -83,7 +93,7 @@ class ArcDiagram {
           start < end ? 1 : 0,
           end,
           ",",
-          height - vis.offset,
+          vis.height - vis.offset,
         ] // Arc is always on top. So if end is before start, putting 0 here turns the arc upside down.
           .join(" ");
       })
@@ -92,13 +102,13 @@ class ArcDiagram {
       .attr("stroke-width", (d) => scale(d.value));
 
     // Add circles for the nodes
-    const nodes = svg
+    const nodes = vis.svg
       .selectAll("mynodes")
       .data(nameData)
       .enter()
       .append("circle")
       .attr("cx", (d) => x(d))
-      .attr("cy", height - vis.offset)
+      .attr("cy", vis.height - vis.offset)
       .attr("r", 8)
       .style("fill", fillColor)
       .on("mousemove", function (event, d) {
@@ -106,12 +116,12 @@ class ArcDiagram {
         d3.select(this).style("fill", accentColor);
 
         // double the stroke width of all paths that have this node as source or target
-        d3.selectAll("path").style("stroke-width", function (path) {
+        d3.selectAll("path").style("opacity", function (path) {
           if (path === null) return;
           if (d === path.source || d === path.target) {
-            return scale(path.value) * 2;
-          } else {
             return 1;
+          } else {
+            return 0.1;
           }
         });
 
@@ -135,20 +145,17 @@ class ArcDiagram {
         d3.select("#tooltip").style("opacity", 0);
         if (d == null) return;
         d3.select(this).style("fill", fillColor);
-        d3.selectAll("path").style("stroke-width", function (path) {
-          if (path === null) return;
-          if (d === path.source || d === path.target) return scale(path.value);
-        });
+        d3.selectAll("path").style("opacity", 1);
       });
 
     // Add labels for the nodes
-    const labels = svg
+    const labels = vis.svg
       .selectAll("mylabels")
       .data(nameData)
       .enter()
       .append("text")
       .attr("x", (d) => x(d))
-      .attr("y", height - 10)
+      .attr("y", vis.height - 10)
       .text((d) => d)
       .style("text-anchor", "middle")
       .style("font-size", "11px");
