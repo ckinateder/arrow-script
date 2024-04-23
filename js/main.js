@@ -6,6 +6,9 @@ const majorCharacters = ["Frasier", "Niles", "Martin", "Daphne", "Roz"];
 const seasons = ["All", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 let characterData;
 
+let overview = false;
+let help = false;
+
 d3.csv("data/transcripts.csv").then((data) => {
   console.log(`decoding ${data.length} rows`);
   processedData = [];
@@ -77,4 +80,28 @@ d3.csv("data/transcripts.csv").then((data) => {
     containerHeight: 300,
     margin: { top: 50, bottom: 40, right: 20, left: 100 },
   });
+});
+
+d3.select("#show-overview-button").on("click", function () {
+  if (!overview) {
+    d3.select("#show-overview-button").text("Hide Overview");
+    d3.select("#show-overview").style("display", "block");
+    overview = true;
+  } else {
+    d3.select("#show-overview-button").text("Show Overview");
+    d3.select("#show-overview").style("display", "none");
+    overview = false;
+  }
+});
+
+d3.select("#show-help-button").on("click", function () {
+  if (!help) {
+    d3.select("#show-help-button").text("Hide Help");
+    d3.select("#show-help").style("display", "block");
+    help = true;
+  } else {
+    d3.select("#show-help-button").text("Show Help");
+    d3.select("#show-help").style("display", "none");
+    help = false;
+  }
 });
