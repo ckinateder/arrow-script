@@ -1,9 +1,8 @@
 #show-overview {
   width: fit-content;
   padding: 5px;
-  max-width: 800px;
+  max-width: 1800px;
   margin-top: 10px;
-  border: 1px solid #333;
 }
 
 .side-by-side {
@@ -41,6 +40,11 @@
 }
 #extra-space {
   height: 40px;
+}
+.center-vertical {
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 * {
   font-family: "Kode Mono", monospace;

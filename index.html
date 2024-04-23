@@ -12,67 +12,70 @@
     <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
   </head>
   <body>
-    <h2 id="title">Frasier</h2>
-    <div id="show-overview">
-      <h3>Overview</h3>
-      <p>
-        Set in Seattle, Washington, the series revolves around Dr. Fraiser
-        Crane, a psychiatrist who hosts a radio advice show. After his divorce,
-        Fraiser moves back to his hometown to reconnect with his family,
-        including his father, Martin Crane, a retired police officer, and his
-        quirky brother, Niles Crane, who is also a psychiatrist. The series
-        revolves around Fraiser’s personal life and navigating his quirky family
-        members.
-      </p>
-      <h3>When did it run and on what platform?</h3>
-      <p>
-        It ran from 1993 to 2004 on NBC, and is currently streaming on Pluto TV
-        and Paramount+
-      </p>
-      <h3>How many seasons and episodes were in the show?</h3>
-      <p>11 seasons with a total of 264 episodes</p>
-      <h3>Who are the main characters?</h3>
-      <p>
-        The main character is obviously the one who the show is named after Dr
-        Fraiser Crane. The other main characters are his family members Martin
-        Crane, and brother Niles Crane.
-      </p>
-      <h3>What genre is it in?</h3>
-      <p>
-        The show is a sitcom, with an adequate blend of humor, drama, and
-        romance
-      </p>
-    </div>
-    <div class="side-by-side">
-      <div class="chart" id="characterbarchart"></div>
+    <div class="center-vertical">
+      <div id="show-overview">
+        <h2 id="title">Frasier</h2>
+        <h3>Overview</h3>
+        <p>
+          Set in Seattle, Washington, the series revolves around Dr. Fraiser
+          Crane, a psychiatrist who hosts a radio advice show. After his
+          divorce, Fraiser moves back to his hometown to reconnect with his
+          family, including his father, Martin Crane, a retired police officer,
+          and his quirky brother, Niles Crane, who is also a psychiatrist. The
+          series revolves around Fraiser’s personal life and navigating his
+          quirky family members.
+        </p>
+        <h3>When did it run and on what platform?</h3>
+        <p>
+          It ran from 1993 to 2004 on NBC, and is currently streaming on Pluto
+          TV and Paramount+
+        </p>
+        <h3>How many seasons and episodes were in the show?</h3>
+        <p>11 seasons with a total of 264 episodes</p>
+        <h3>Who are the main characters?</h3>
+        <p>
+          The main character is obviously the one who the show is named after Dr
+          Fraiser Crane. The other main characters are his family members Martin
+          Crane, and brother Niles Crane.
+        </p>
+        <h3>What genre is it in?</h3>
+        <p>
+          The show is a sitcom, with an adequate blend of humor, drama, and
+          romance
+        </p>
+      </div>
+      <div class="side-by-side">
+        <div class="chart" id="characterbarchart"></div>
+        <div class="center-vertical" id="chart-and-button-container">
+          <span>
+            Character:
+            <select
+              class="selectButton"
+              id="wordcloud-character-select"
+            ></select>
+          </span>
+          <span>
+            Season:
+            <select class="selectButton" id="wordcloud-season-select"></select>
+          </span>
+          <div class="chart" id="characterwordcloud"></div>
+        </div>
+        <div id="stack-on-top">
+          <div class="chart" id="firstlinebarchart"></div>
+          <div class="chart" id="lastlinebarchart"></div>
+        </div>
+      </div>
+      <div class="chart" id="linesovertime"></div>
+
       <div id="chart-and-button-container">
         <span>
-          Character:
-          <select class="selectButton" id="wordcloud-character-select"></select>
-        </span>
-        <span>
           Season:
-          <select class="selectButton" id="wordcloud-season-select"></select>
+          <select class="selectButton" id="arc-season-select"></select>
         </span>
-
-        <div class="chart" id="characterwordcloud"></div>
+        <div class="chart" id="arcdiagram"></div>
       </div>
     </div>
-    <div class="chart" id="linesovertime"></div>
-
-    <div id="chart-and-button-container">
-      <span>
-        Season:
-        <select class="selectButton" id="arc-season-select"></select>
-      </span>
-      <div class="chart" id="arcdiagram"></div>
-    </div>
-
     <div id="tooltip"></div>
-    <div class="side-by-side">
-      <div class="chart" id="firstlinebarchart"></div>
-      <div class="chart" id="lastlinebarchart"></div>
-    </div>
 
     <div id="extra-space"></div>
 

@@ -48,32 +48,32 @@ d3.csv("data/transcripts.csv").then((data) => {
   });
   const characterWordCloud = new WordCloud(processedData, "Frasier", {
     parentElement: "#characterwordcloud",
-    containerWidth: 875,
+    containerWidth: 650,
     containerHeight: 600,
     margin: { top: 10, bottom: 10, right: 10, left: 10 },
     numWords: 50,
   });
   const averagg = new LinesOverTime(processedData, {
     parentElement: "#linesovertime",
-    containerWidth: 1700,
+    containerWidth: 1900,
     containerHeight: 500,
     margin: { top: 50, bottom: 40, right: 20, left: 60 },
   });
   const characterArcDiagram = new ArcDiagram(processedData, {
     parentElement: "#arcdiagram",
-    containerWidth: 1600,
+    containerWidth: 1800,
     containerHeight: 400,
     margin: { top: 20, right: 20, bottom: 20, left: 20 },
   });
   const firstLineTracker = new FirstLineBarChart(processedData, {
     parentElement: "#firstlinebarchart",
-    containerWidth: 900,
+    containerWidth: 600,
     containerHeight: 300,
     margin: { top: 50, bottom: 40, right: 20, left: 100 },
   });
   const lastLineTracker = new LastLineBarChart(processedData, {
     parentElement: "#lastlinebarchart",
-    containerWidth: 950,
+    containerWidth: 600,
     containerHeight: 300,
     margin: { top: 50, bottom: 40, right: 20, left: 100 },
   });
