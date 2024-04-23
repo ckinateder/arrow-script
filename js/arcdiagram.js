@@ -125,7 +125,7 @@ class ArcDiagram {
       })
       .style("fill", "none")
       .attr("stroke", (d) => color(d.value))
-      .attr("stroke-width", (d) => scale(d.value));
+      .attr("stroke-width", (d) => (scale(d.value)*3));
 
     // Add circles for the nodes
     const nodes = vis.svg
