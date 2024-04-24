@@ -79,4 +79,7 @@ h3 {
   text-align: center;
   padding: 5px;
   font-size: 12px;
+  .light {
+    color: #ffffff;
+  }
 }
